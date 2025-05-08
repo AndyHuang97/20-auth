@@ -9,7 +9,7 @@ export default AuthenticationPage;
 
 export async function action({ request }) {
   console.log(request);
-  
+
   // we are not inside a React component, so we can't use useSearchParams
   const searchParams = new URL(request.url).searchParams;
   const mode = searchParams.get("mode") || "login";
@@ -47,7 +47,11 @@ export async function action({ request }) {
     );
   }
 
-  // manage token here 
-  // ...
-  return redirect("/")
+  // manage token here
+  const resData = await response.json();
+  const token = resData.token;
+
+  localStorage.setItem("token", token);
+
+  return redirect("/");
 }
